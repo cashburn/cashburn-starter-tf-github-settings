@@ -41,4 +41,9 @@ resource "github_repository_ruleset" "default" {
     }
     required_linear_history = true
   }
+  bypass_actors {
+    actor_id    = 5 # Anyone with Repository Admin role
+    actor_type  = "RepositoryRole"
+    bypass_mode = "always"
+  }
 }
