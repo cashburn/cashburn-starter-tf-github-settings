@@ -29,8 +29,8 @@ jobs:
 
       - name: Terraform Plan
         working-directory: github-settings
-        run: terraform plan
+        run: terraform plan -out=tfplan
 
       - name: Terraform Apply
         working-directory: github-settings
-        run: terraform apply
+        run: terraform apply "tfplan"
