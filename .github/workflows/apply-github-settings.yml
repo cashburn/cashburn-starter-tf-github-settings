@@ -7,8 +7,6 @@ on:
       - github-settings/**
       - .github/workflows/apply-github-settings.yml
 
-  workflow_dispatch:
-
 permissions:
   contents: read
 
