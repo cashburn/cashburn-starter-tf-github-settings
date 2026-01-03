@@ -18,7 +18,7 @@ resource "github_repository" "repo" {
 }
 
 resource "github_repository_ruleset" "default" {
-  name        = "default-branch-ruleset"
+  name        = "default-ruleset"
   repository  = github_repository.repo.name
   target      = "branch"
   enforcement = "active"
@@ -26,20 +26,21 @@ resource "github_repository_ruleset" "default" {
   conditions {
     ref_name {
       include = [
-        "~DEFAULT_BRANCH",
-        "refs/heads/releases/*"
+        "~DEFAULT_BRANCH"
       ]
       exclude = []
     }
   }
 
   rules {
+    required_linear_history = true
+    deletion = true
     pull_request {
       required_approving_review_count = 1
       dismiss_stale_reviews_on_push   = true
       require_code_owner_review       = true
     }
-    required_linear_history = true
+    
   }
   bypass_actors {
     actor_id    = 5 # Anyone with Repository Admin role
