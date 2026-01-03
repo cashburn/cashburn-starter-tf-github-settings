@@ -29,6 +29,8 @@ jobs:
 
       - name: Terraform Import Repo
         run: |
+          REPO_NAME="${GITHUB_REPOSITORY##*/}"
+          echo $REPO_NAME
           terraform import github_repository.repo $GITHUB_REPOSITORY
         working-directory: github-settings
         env:
