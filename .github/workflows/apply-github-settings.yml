@@ -11,7 +11,7 @@ on:
 
 permissions:
   contents: read
-  administration: write
+  id-token: write
 
 jobs:
   apply:
