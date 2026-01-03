@@ -1,0 +1,36 @@
+name: Apply GitHub Repository Settings
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - github-settings/**
+      - .github/workflows/apply-github-settings.yml
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+        working-directory: terraform
+        run: terraform init
+
+      - name: Terraform Plan
+        working-directory: github-settings
+        run: terraform plan
+
+    #   - name: Terraform Apply
+    #     working-directory: github-settings
+    #     run: terraform apply
