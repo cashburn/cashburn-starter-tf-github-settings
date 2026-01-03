@@ -12,6 +12,7 @@ The `main` branch of the `/github-settings` folder is the source of truth for th
 ## GitHub
 
 # Steps to use this in your project
+## Option 1 - Create a PAT
 1. Open your GitHub [Developer Settings](https://github.com/settings/personal-access-tokens)
 2. Create a fine-grained PAT in GitHub
    1. `Name` - Something related to the repo name
@@ -22,12 +23,44 @@ The `main` branch of the `/github-settings` folder is the source of truth for th
       2. Contents - Read (Terraform needs to see repo data)
 3. In GitHub, go to your repository Settings, then under Security, select `Secrets and variables -> Actions`.
    1. Under `Repository secrets`, add the PAT as a secret called `GH_PAT`
-4. Copy `/.github/` folder into your repository. This should include these files:
+
+## Option 2 - Create a GitHub App
+This GitHub App can be used for other repositories with the same owner; you only need to create it once, and just install it for multiple repositories.
+1. Open your GitHub [Developer Settings](https://github.com/settings/personal-access-tokens)
+2. Go to `GitHub -> Settings -> Developer settings → GitHub Apps`
+3. Select `New GitHub App`
+   1. `GitHub App name` - A name for the app (ex. cashburn-github-settings)
+   2. `Homepage URL` - Any valid URL (e.g. your org GitHub page)
+   3. `Webhook` - **Uncheck Active** (Terraform does not need webhooks)
+   4. `Permissions`
+      1. Under `Repository permissions`:
+         1. `Administration` - Read & write
+         2. `Contents` - Read
+         3. `Metadata` - Read-only (auto-enabled)
+      2. No other Organization or Account permissions are needed
+   5. `Where can this GitHub App be installed?`
+      1. Select `Only on this account` - We do not want this app to be public; each account should create their own GitHub App
+4. At the top of the GitHub App settings page, under the `About` section, note down the numeric `App ID`.
+5. Scroll to `Private keys`
+   1. Click `Generate a private key`
+   2. Download the `.pem` file
+   3. **This file is a secret! Do NOT commit it to Git!**
+6. Install the App
+   1. On the GitHub App settings page for your app, click `Install App` on the left.
+   2. `Only select repositories` and select which repositories you want to manage.
+   3. Click `Install`
+7. In GitHub, go back to your Repository, and go to your repository Settings, then under Security, select `Secrets and variables -> Actions`.
+   1. Under `Repository secrets`, add these two secrets:
+      1. `GH_APP_ID` - The numeric GitHub App `App ID` noted above (Ex. 1234567)
+      2. `GH_APP_PRIVATE_KEY` - Contents of the `.pem` file
+
+## Configure the rest of the settings
+1. Copy `/.github/` folder into your repository. This should include these files:
    1. `workflows/apply-github-settings.yml` - A GitHub Actions workflow that automatically updates the Repository Settings on changes
    2. `CODEOWNERS` - Set up code owners for your `/github-settings/` and `/.github/` folders to prevent unauthorized changes to the repository settings
-5. Copy `/github-settings/` folder into your repository. This should include these files:
+2. Copy `/github-settings/` folder into your repository. This should include these files:
    1. `main.tf` - Repository settings and rulesets defined using Terraform
    2. `providers.tf` - Tells Terraform to use the GitHub provider
    3. `terraform.tfvars` - Not used unless you need to override the Workflow values
    4. `variables.tf` - Defines the tf vars
-6. Push to the `main` branch. The `Apply GitHub Repository Settings` GitHub Actions Workflow should automatically run and 
+3. Push to the `main` branch. The `Apply GitHub Repository Settings` GitHub Actions Workflow should automatically run and 
