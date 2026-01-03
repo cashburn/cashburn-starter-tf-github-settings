@@ -25,6 +25,7 @@ The `main` branch of the `/github-settings` folder is the source of truth for th
    1. Under `Repository secrets`, add the PAT as a secret called `GH_PAT`
 
 ## Option 2 - Create a GitHub App
+This GitHub App can be used for other repositories with the same owner; you only need to create it once, and just install it for multiple repositories.
 1. Open your GitHub [Developer Settings](https://github.com/settings/personal-access-tokens)
 2. Go to `GitHub -> Settings -> Developer settings → GitHub Apps`
 3. Select `New GitHub App`
