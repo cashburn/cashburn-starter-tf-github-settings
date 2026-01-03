@@ -1,5 +1,6 @@
 variable "github_token" {
   type      = string
+  description = "GitHub PAT. Provide this as a TF_VAR using GitHub Actions Secrets."
   sensitive = true
 }
 

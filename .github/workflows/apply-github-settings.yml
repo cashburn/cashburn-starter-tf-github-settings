@@ -27,6 +27,12 @@ jobs:
         working-directory: github-settings
         run: terraform init
 
+      - name: Terraform Import Repo
+        run: |
+          terraform import github_repository.repo $GITHUB_REPOSITORY || true
+          terraform import github_branch_protection.main $GITHUB_REPOSITORY:main || true
+        working-directory: github-settings
+
       - name: Terraform Plan
         working-directory: github-settings
         run: terraform plan -out=tfplan
