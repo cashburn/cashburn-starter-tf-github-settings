@@ -16,8 +16,8 @@ jobs:
   github-settings:
     runs-on: ubuntu-latest
     env:
-      GITHUB_APP_ID: ${{ secrets.GITHUB_APP_ID }}
-      GITHUB_APP_PRIVATE_KEY: ${{ secrets.GITHUB_APP_PRIVATE_KEY }}
+      GH_APP_ID: ${{ secrets.GH_APP_ID }}
+      GH_APP_PRIVATE_KEY: ${{ secrets.GH_APP_PRIVATE_KEY }}
 
     steps:
       - name: Checkout
@@ -26,10 +26,10 @@ jobs:
       - name: Generate GitHub App Token
         id: app-token
         uses: actions/create-github-app-token@v1
-        if: env.GITHUB_APP_ID != '' && env.GITHUB_APP_PRIVATE_KEY != ''
+        if: env.GH_APP_ID != '' && env.GH_APP_PRIVATE_KEY != ''
         with:
-          app-id: ${{ env.GITHUB_APP_ID }}
-          private-key: ${{ env.GITHUB_APP_PRIVATE_KEY }}
+          app-id: ${{ env.GH_APP_ID }}
+          private-key: ${{ env.GH_APP_PRIVATE_KEY }}
 
       - name: Set Terraform Token
         run: |

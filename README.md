@@ -39,10 +39,19 @@ The `main` branch of the `/github-settings` folder is the source of truth for th
       2. No other Organization or Account permissions are needed
    5. `Where can this GitHub App be installed?`
       1. Select `Only on this account` - We do not want this app to be public; each account should create their own GitHub App
-4. Scroll to `Private keys`
+4. At the top of the GitHub App settings page, under the `About` section, note down the numeric `App ID`.
+5. Scroll to `Private keys`
    1. Click `Generate a private key`
    2. Download the `.pem` file
    3. **This file is a secret! Do NOT commit it to Git!**
+6. Install the App
+   1. On the GitHub App settings page for your app, click `Install App` on the left.
+   2. `Only select repositories` and select which repositories you want to manage.
+   3. Click `Install`
+7. In GitHub, go back to your Repository, and go to your repository Settings, then under Security, select `Secrets and variables -> Actions`.
+   1. Under `Repository secrets`, add these two secrets:
+      1. `GH_APP_ID` - The numeric GitHub App `App ID` noted above (Ex. 1234567)
+      2. `GH_APP_PRIVATE_KEY` - Contents of the `.pem` file
 
 ## Configure the rest of the settings
 1. Copy `/.github/` folder into your repository. This should include these files:
