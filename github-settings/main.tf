@@ -16,3 +16,70 @@ resource "github_repository" "repo" {
   has_projects = false
   has_wiki     = false
 }
+
+resource "github_repository_ruleset" "default" {
+  name        = "default-ruleset"
+  repository  = github_repository.repo.name
+  target      = "branch"
+  enforcement = "active"
+
+  conditions {
+    ref_name {
+      include = [
+        "~DEFAULT_BRANCH"
+      ]
+      exclude = []
+    }
+  }
+
+  rules {
+    required_linear_history = true
+    deletion = true
+    pull_request {
+      required_approving_review_count = 1
+      dismiss_stale_reviews_on_push   = true
+      require_code_owner_review       = true
+    }
+    
+  }
+  bypass_actors {
+    actor_id    = 5 # Anyone with Repository Admin role
+    actor_type  = "RepositoryRole"
+    bypass_mode = "always"
+  }
+}
+
+resource "github_repository_ruleset" "releases" {
+  name        = "releases-ruleset"
+  repository  = github_repository.repo.name
+  target      = "branch"
+  enforcement = "active"
+
+  conditions {
+    ref_name {
+      include = [
+        "refs/heads/releases/*"
+      ]
+      exclude = []
+    }
+  }
+
+  rules {
+    required_linear_history = true
+    creation = true
+    update = true
+    deletion = true
+
+    pull_request {
+      required_approving_review_count = 1
+      dismiss_stale_reviews_on_push   = true
+      require_code_owner_review       = true
+    }
+    
+  }
+  bypass_actors {
+    actor_id    = 5 # Anyone with Repository Admin role
+    actor_type  = "RepositoryRole"
+    bypass_mode = "always"
+  }
+}

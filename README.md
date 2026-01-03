@@ -3,6 +3,10 @@ A template for managing GitHub Repository settings with Terraform, using a GitHu
 
 The `main` branch of the `/github-settings` folder is the source of truth for the GitHub Repository Settings, and any time there are changes to the GitHub Repository Settings terraform files, the Apply GitHub Repository Settings workflow will be triggered.
 
+**Rulesets must be DELETED MANUALLY in GitHub before changes will take effect.** Otherwise, the next terraform apply will fail, because it tries to recreate the rulesets again.
+
+**This project is intended to be a one-time repo setup at the moment**, because the tfstate is NOT being tracked. If you create a terraform backend to store the tfstate, only then can you can run it multiple times without deleting the Rulesets.
+
 # Acceptance Criteria
 
 ## GitHub
@@ -23,20 +27,6 @@ The `main` branch of the `/github-settings` folder is the source of truth for th
 cashburn-starter-tf-github-settings/
 ├── .github/
 │   └── workflows/
-│       ├── ci-cd.yml              # CI (validate, build, test) + CD (tf plan/apply)
-|       └── deploy-template.yml    # Used by ci-cd.yml for deployment to each env. Modify this to add your deployment steps
-|
-├── .vscode/                       # Recommended VS Code settings/extensions
-│
-├── infra/
-│   ├── main.tf                    # Add your terraform resources here
-│   ├── providers.tf               # Azure + required providers
-│   ├── backend.tf                 # Backend definition (no hardcoded values, all values in env/backend.*.config)
-│   ├── variables.tf               # Input variables (env, location, app name)
-│   ├── locals.tf                  # Combines the input vars together
-│
-├── .editorconfig
-├── .gitignore
 └── README.md                      # You are here!
 ```
 
