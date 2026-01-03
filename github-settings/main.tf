@@ -27,7 +27,7 @@ resource "github_repository_ruleset" "default" {
     ref_name {
       include = [
         "~DEFAULT_BRANCH",
-        "releases/*"
+        "refs/heads/releases/*"
       ]
       exclude = []
     }
