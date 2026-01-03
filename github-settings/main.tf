@@ -66,6 +66,9 @@ resource "github_repository_ruleset" "releases" {
 
   rules {
     required_linear_history = true
+    creation = true
+    update = true
+    deletion = true
 
     pull_request {
       required_approving_review_count = 1
