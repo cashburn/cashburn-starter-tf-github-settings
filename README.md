@@ -20,15 +20,14 @@ The `main` branch of the `/github-settings` folder is the source of truth for th
    4. `Permissions`:
       1. Administration - Read & Write (this is what allows Terraform to update the Repo settings)
       2. Contents - Read (Terraform needs to see repo data)
-      3. Pull Requests - Read & Write (TODO: testing without this permission at first)
-
-# Project Structure
-```
-cashburn-starter-tf-github-settings/
-├── .github/
-│   └── workflows/
-└── README.md                      # You are here!
-```
-
-# Cleanup
-
+3. In GitHub, go to your repository Settings, then under Security, select `Secrets and variables -> Actions`.
+   1. Under `Repository secrets`, add the PAT as a secret called `GH_PAT`
+4. Copy `/.github/` folder into your repository. This should include these files:
+   1. `workflows/apply-github-settings.yml` - A GitHub Actions workflow that automatically updates the Repository Settings on changes
+   2. `CODEOWNERS` - Set up code owners for your `/github-settings/` and `/.github/` folders to prevent unauthorized changes to the repository settings
+5. Copy `/github-settings/` folder into your repository. This should include these files:
+   1. `main.tf` - Repository settings and rulesets defined using Terraform
+   2. `providers.tf` - Tells Terraform to use the GitHub provider
+   3. `terraform.tfvars` - Not used unless you need to override the Workflow values
+   4. `variables.tf` - Defines the tf vars
+6. Push to the `main` branch. The `Apply GitHub Repository Settings` GitHub Actions Workflow should automatically run and 
