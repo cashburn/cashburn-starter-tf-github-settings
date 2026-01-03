@@ -16,3 +16,29 @@ resource "github_repository" "repo" {
   has_projects = false
   has_wiki     = false
 }
+
+resource "github_repository_ruleset" "default" {
+  name        = "default-branch-ruleset"
+  repository  = github_repository.repo.name
+  target      = "branch"
+  enforcement = "active"
+
+  conditions {
+    ref_name {
+      include = [
+        "~DEFAULT_BRANCH",
+        "releases/*"
+      ]
+      exclude = []
+    }
+  }
+
+  rules {
+    pull_request {
+      required_approving_review_count = 1
+      dismiss_stale_reviews_on_push   = true
+      require_code_owner_review       = true
+    }
+    required_linear_history = true
+  }
+}
