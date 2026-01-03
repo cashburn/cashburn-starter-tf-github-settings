@@ -32,6 +32,8 @@ jobs:
           terraform import github_repository.repo $GITHUB_REPOSITORY || true
           terraform import github_branch_protection.main $GITHUB_REPOSITORY:main || true
         working-directory: github-settings
+        env:
+          TF_VAR_github_token: ${{ secrets.GH_PAT }}
 
       - name: Terraform Plan
         working-directory: github-settings
