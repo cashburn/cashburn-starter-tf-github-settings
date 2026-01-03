@@ -8,7 +8,15 @@ The `main` branch of the `/github-settings` folder is the source of truth for th
 ## GitHub
 
 # Steps to use this in your project
-
+1. Open your GitHub [Developer Settings](https://github.com/settings/personal-access-tokens)
+2. Create a fine-grained PAT in GitHub
+   1. `Name` - Something related to the repo name
+   2. `Expiration` - Usually 90 days
+   3. `Only Select Repositories` - You should only select the repo you want to set the rules for
+   4. `Permissions`:
+      1. Administration - Read & Write (this is what allows Terraform to update the Repo settings)
+      2. Contents - Read (Terraform needs to see repo data)
+      3. Pull Requests - Read & Write (TODO: testing without this permission at first)
 
 # Project Structure
 ```

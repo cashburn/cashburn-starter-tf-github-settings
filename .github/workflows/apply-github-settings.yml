@@ -11,10 +11,9 @@ on:
 
 permissions:
   contents: read
-  id-token: write
 
 jobs:
-  apply:
+  github-settings:
     runs-on: ubuntu-latest
 
     steps:
@@ -35,3 +34,5 @@ jobs:
       - name: Terraform Apply
         working-directory: github-settings
         run: terraform apply "tfplan"
+        env:
+          TF_VAR_github_token: ${{ secrets.GH_PAT }}

@@ -1,4 +1,4 @@
-resource "github_repository" "this" {
+resource "github_repository" "repo" {
   name        = var.repository_name
   visibility  = "private"
 
