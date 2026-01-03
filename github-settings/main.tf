@@ -35,6 +35,8 @@ resource "github_repository_ruleset" "default" {
   rules {
     required_linear_history = true
     deletion = true
+    non_fast_forward = true
+
     pull_request {
       required_approving_review_count = 1
       dismiss_stale_reviews_on_push   = true
@@ -69,6 +71,7 @@ resource "github_repository_ruleset" "releases" {
     creation = true
     update = true
     deletion = true
+    non_fast_forward = true
 
     pull_request {
       required_approving_review_count = 1
