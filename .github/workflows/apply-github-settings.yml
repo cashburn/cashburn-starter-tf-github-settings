@@ -11,10 +11,9 @@ on:
 
 permissions:
   contents: read
-  id-token: write
 
 jobs:
-  apply:
+  github-settings:
     runs-on: ubuntu-latest
 
     steps:
@@ -28,10 +27,25 @@ jobs:
         working-directory: github-settings
         run: terraform init
 
+      - name: Terraform Import Repo
+        run: |
+          FULL_REPO="${{ github.repository }}"
+          OWNER="${{ github.repository_owner }}"
+          REPO_NAME="${FULL_REPO/$OWNER\//}"
+          echo $REPO_NAME
+          terraform import github_repository.repo $REPO_NAME
+        working-directory: github-settings
+        env:
+          TF_VAR_github_token: ${{ secrets.GH_PAT }}
+
       - name: Terraform Plan
         working-directory: github-settings
         run: terraform plan -out=tfplan
+        env:
+          TF_VAR_github_token: ${{ secrets.GH_PAT }}
 
       - name: Terraform Apply
         working-directory: github-settings
         run: terraform apply "tfplan"
+        env:
+          TF_VAR_github_token: ${{ secrets.GH_PAT }}
