@@ -1,6 +1,6 @@
 resource "github_repository" "repo" {
   name        = var.repository_name
-  visibility  = "private"
+  visibility  = "public"
 
   # Pull Request merge options
   allow_merge_commit     = false
