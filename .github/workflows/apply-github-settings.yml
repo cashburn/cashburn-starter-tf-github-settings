@@ -31,6 +31,6 @@ jobs:
         working-directory: github-settings
         run: terraform plan
 
-    #   - name: Terraform Apply
-    #     working-directory: github-settings
-    #     run: terraform apply
+      - name: Terraform Apply
+        working-directory: github-settings
+        run: terraform apply
