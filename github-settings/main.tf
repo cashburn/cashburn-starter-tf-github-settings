@@ -86,3 +86,14 @@ resource "github_repository_ruleset" "releases" {
     bypass_mode = "always"
   }
 }
+
+resource "github_repository_environment" "admin" {
+  repository  = var.repository_name
+  environment = "admin"
+
+  reviewers {
+    users = ["cashburn"]
+    # Optionally, you can specify teams as well:
+    # teams = ["my-team"]
+  }
+}
