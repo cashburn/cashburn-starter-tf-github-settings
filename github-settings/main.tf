@@ -1,3 +1,9 @@
+# This user will need to approve any deployments to the "admin" environment
+# to protect any GitHub Repo Settings changes
+data "github_user" "admin" {
+  username = "cashburn" # IMPORTANT: Replace this with the admin of your repo!!
+}
+
 resource "github_repository" "repo" {
   name        = var.repository_name
   visibility  = "public"
@@ -84,5 +90,16 @@ resource "github_repository_ruleset" "releases" {
     actor_id    = 5 # Anyone with Repository Admin role
     actor_type  = "RepositoryRole"
     bypass_mode = "always"
+  }
+}
+
+resource "github_repository_environment" "admin" {
+  repository  = var.repository_name
+  environment = "admin"
+
+  reviewers {
+    users = [data.github_user.admin.id]
+    # Optionally, you can specify teams as well:
+    # teams = ["my-team-id"]
   }
 }
