@@ -1,7 +1,9 @@
 # GitHub Terraform Azure Starter Project
-A template for managing GitHub Repository settings with Terraform, using a GitHub Actions Workflow to automatically authenticate with GitHub using OIDC.
+A template for managing GitHub Repository settings with Terraform, using a GitHub Actions Workflow to automatically authenticate with GitHub using a GitHub App or a GitHub PAT.
 
 The `main` branch of the `/github-settings` folder is the source of truth for the GitHub Repository Settings, and any time there are changes to the GitHub Repository Settings terraform files, the Apply GitHub Repository Settings workflow will be triggered.
+
+**Use the ENVIRONMENT secrets, NOT REPOSITORY secrets for storing the PAT or GitHub App private key.** If you store them as a Repository secret, anyone with Contributor permissions can create a workflow that uses the secret and modifies the Repo settings. But if you store them as an Environment secret, you can require that any access to the elevated secret requires an explicit Environment deployment approval.
 
 **Rulesets must be DELETED MANUALLY in GitHub before changes will take effect.** Otherwise, the next terraform apply will fail, because it tries to recreate the rulesets again.
 
@@ -22,7 +24,7 @@ The `main` branch of the `/github-settings` folder is the source of truth for th
       1. Administration - Read & Write (this is what allows Terraform to update the Repo settings)
       2. Contents - Read (Terraform needs to see repo data)
 3. In GitHub, go to your repository Settings, then under Security, select `Secrets and variables -> Actions`.
-   1. Under `Repository secrets`, add the PAT as a secret called `GH_PAT`
+   1. Under `Environment secrets`, add the PAT as a secret in the `admin` environment, called `GH_PAT`
 
 ## Option 2 - Create a GitHub App
 This GitHub App can be used for other repositories with the same owner; you only need to create it once, and just install it for multiple repositories.
@@ -50,7 +52,7 @@ This GitHub App can be used for other repositories with the same owner; you only
    2. `Only select repositories` and select which repositories you want to manage.
    3. Click `Install`
 7. In GitHub, go back to your Repository, and go to your repository Settings, then under Security, select `Secrets and variables -> Actions`.
-   1. Under `Repository secrets`, add these two secrets:
+   1. Under `Environment secrets`, add these two secrets to the `admin` environment:
       1. `GH_APP_ID` - The numeric GitHub App `App ID` noted above (Ex. 1234567)
       2. `GH_APP_PRIVATE_KEY` - Contents of the `.pem` file
 
